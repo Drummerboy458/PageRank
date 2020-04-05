@@ -2,10 +2,9 @@
 from pickleSaveLoad import load_r_vector,load_M_vector,load_deadEnd_list
 from randomTel import randomTel,deadEndsTel,beta
 import numpy as np
+from preproc import dataSort,generateMR
 import time
 
-
-deadEndList=load_deadEnd_list("deadEndList")
 #使用L1范式判断结构是否收敛到一定程度
 def test(r_new,r_old):
     limitation=0.000001
@@ -13,21 +12,24 @@ def test(r_new,r_old):
     for key in r_new.keys():
         sum+=(r_new[key]-r_old[key])
     if abs(sum)<limitation:
-        print(sum)
+        #print(sum)
         return True
     else:
-        print(sum)
+        #print(sum)
         return False
 
 def Top100(r_new):
     result = sorted(r_new.items(), key=lambda item: item[1], reverse=True)
-    np.savetxt("./data/result.txt",result)
+    np.savetxt("./data/result.txt",result[0:100])
 
 
 #pageRank函数主体处理M*r_old
 #先实现r向量不分块的写法：每次取出一块M，在一块M中每次选一个key，从r_old中找对应的值，乘完挨个加到r_new
 #r_new是整个存在内存中的
 if __name__ == '__main__':
+    dataSort()
+    generateMR()
+    deadEndList = load_deadEnd_list("deadEndList")
     flag=False
     recur=0
     while not flag:

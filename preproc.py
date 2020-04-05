@@ -2,6 +2,8 @@
 #数据预处理
 import numpy as np
 from pickleSaveLoad import save_M_vector,save_r_vector,save_deadEnd_list
+import os
+from pathlib import Path
 
 deadEndListName="deadEndList"
 #读入文件并按顺序排好并写回
@@ -11,7 +13,20 @@ def dataSort():
     np.savetxt("./data/sortedWikiData.txt", rawData[np.argsort(rawData[:, 0])])
 
 #生成M矩阵，切块，每块包含ID跨度为1000
+def makeDir():
+    m_vector=Path("./m_vector")
+    r_vector=Path("./r_vector")
+    deadEndList=Path("./deadEndList")
+    if not m_vector.exists():
+        os.mkdir('m_vector')
+    if not r_vector.exists():
+        os.mkdir('r_vector')
+    if not deadEndList.exists():
+        os.mkdir('deadEndList')
+
+
 def generateMR():
+    makeDir()
     fileName="./data/sortedWikiData.txt"
     sortedWikiData = np.loadtxt(fileName)
     flag=1000;
@@ -41,7 +56,6 @@ def generateMR():
     for key,value in dict_R.items():
         if value==0:
             deadEnds.append(key)
-    print(deadEnds)
     save_deadEnd_list(deadEnds,deadEndListName)
     #R向量就是dict_R的所有keys（这里先整体存储）TODO：更细的切分
     count=len(dict_R)
@@ -50,13 +64,6 @@ def generateMR():
     for key in dict_R.keys():
         dict_R[key]=initval
     save_r_vector(dict_R,str(0))
-    print(dict_R)
     for key in dict_R.keys():
         dict_R[key]=0
     save_r_vector(dict_R,"empty")
-    print("len(M)"+str(len(dict_M)))
-    print("len(R"+str(len(dict_R)))
-    print("len(dead"+ str(len(deadEnds)))
-
-
-generateMR()

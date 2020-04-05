@@ -14,7 +14,6 @@ interpriter/
 .idea
 
 #dataDic
-data/
 deadEndList/
 m_vector/
 r_vector
