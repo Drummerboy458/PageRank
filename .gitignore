@@ -16,7 +16,10 @@ interpriter/
 #dataDic
 deadEndList/
 m_vector/
-r_vector
+r_vector/
+r_new_vector
 
+data/result.txt
+data/sortedWikiData.txt
 
 test.py
