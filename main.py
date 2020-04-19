@@ -6,23 +6,26 @@ from pickleSaveLoad import *
 from randomTel import beta
 from preproc import dataSort, generateMR
 
-size = 7115
-
 
 def Top100(r_new):
     dict_res = {}
     result = sorted(r_new.items(), key=lambda item: item[1], reverse=True)
-    for i in range(0, 101):
+    for i in range(0, 100):
         dict_res[result[i][0]] = result[i][1]
 
     with open('./data/result.json', 'w+') as f:
         json.dump(dict_res, f, ensure_ascii=False, indent=4)
         f.write('\n')
+    f.close()
+
+    with open('./data/result.txt', 'w+') as f:
+        for key in dict_res.keys():
+            f.write(str(key) + "\t" + str(dict_res[key]) + "\n")
+    f.close()
 
 
 # pageRank函数主体处理M*r_old
-# 先实现r向量不分块的写法：每次取出一块M，在一块M中每次选一个key，从r_old中找对应的值，乘完挨个加到r_new
-# r_new是整个存在内存中的
+# r_old在内存中
 if __name__ == '__main__':
     dataSort()
     generateMR()
@@ -32,6 +35,7 @@ if __name__ == '__main__':
 
     time_start = time.time()
     r_old = load_r_vector(str(recur))
+    size = len(r_old)
     while err > 0.000001:
         err = 0
         recur += 1
