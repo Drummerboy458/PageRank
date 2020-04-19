@@ -28,7 +28,6 @@ def makeDir():
         os.mkdir('r_vector')
     if not deadEndList.exists():
         os.mkdir('deadEndList')
-
     if not r_new_vector.exists():
         os.mkdir('r_new_vector')
 
