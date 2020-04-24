@@ -8,14 +8,6 @@ from pathlib import Path
 
 deadEndListName = "deadEndList"
 
-
-# 读入文件并按顺序排好并写回
-def dataSort():
-    fileName = "./data/WikiData.txt"
-    rawData = np.loadtxt(fileName)
-    np.savetxt("./data/sortedWikiData.txt", rawData[np.argsort(rawData[:, 0])])
-
-
 # 生成M矩阵，切块，每块包含ID跨度为1000
 def makeDir():
     m_vector = Path("./m_vector")
@@ -28,14 +20,13 @@ def makeDir():
         os.mkdir('r_vector')
     if not deadEndList.exists():
         os.mkdir('deadEndList')
-
     if not r_new_vector.exists():
         os.mkdir('r_new_vector')
 
 
 def generateMR():
     makeDir()
-    fileName = "./data/sortedWikiData.txt"
+    fileName = "./data/WikiData.txt"
     sortedWikiData = np.loadtxt(fileName)
     dict_M = {}  # 存"M矩阵"，格式： {"src":{"degree":degree,"link":[link]}}
     dict_R = {}  # 黑洞是只作为to，不作为from

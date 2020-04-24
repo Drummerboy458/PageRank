@@ -27,7 +27,6 @@ def Top100(r_new):
 # pageRank函数主体处理M*r_old
 # r_old在内存中
 if __name__ == '__main__':
-    dataSort()
     generateMR()
     deadEndList = load_deadEnd_list("deadEndList")
     recur = 0
